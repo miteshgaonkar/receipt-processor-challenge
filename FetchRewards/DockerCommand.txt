@@ -1,0 +1,8 @@
+# Step 1: Build the project
+./mvnw clean package
+
+# Step 2: Build the Docker image
+docker build -t fetch-rewards .
+
+# Step 3: Run the Docker container
+docker run -p 8080:8080 fetch-rewards

@@ -1,22 +1,17 @@
-# Create a `Dockerfile`
+# Start with a base image containing Java runtime
+FROM openjdk:17-jdk-slim
 
-# Use an official OpenJDK runtime as a parent image
-FROM openjdk:11-jdk-slim
+# Add a volume pointing to /tmp
+VOLUME /tmp
 
-# Set the working directory
-WORKDIR /app
+# Make port 8080 available to the world outside this container
+EXPOSE 8080
 
-# Add the project files to the Docker image
-ADD . /app
+# The application's jar file
+ARG JAR_FILE=target/FetchRewards-1.0-SNAPSHOT.jar
 
-# Package the application
-RUN ./mvnw package
+# Add the application's jar to the container
+ADD ${JAR_FILE} app.jar
 
-# Run the application
-CMD ["java", "-jar", "target/receipt-processor-0.0.1-SNAPSHOT.jar"]
-
-
-# Running the Application
-
-docker build -t receipt-processor .
-docker run -p 8080:8080 receipt-processor
+# Run the jar file
+ENTRYPOINT ["java","-jar","/app.jar"]
